@@ -3,24 +3,53 @@ import { useState,useEffect } from 'react'
 import finhub from '../api/finhub'
 
 const StockList = () => {
+  const [stock, setStock] = useState()
   const [watchlist, setWatchlist]  = useState(["GOOGL", "MSFT","AMZN"])
   useEffect(()=>{
+    let isMount = true
     const fetchData = async() =>{
+      
       try {
-        const response =  await finhub.
-        get("/quote?sybmbol=MSFT&token=cokcl81r01qq4pkuj38gcokcl81r01qq4pkuj390")
+        const responses = await Promise.all(watchlist.map((stock)=> {
+          return finhub.get("/quote",{
+            params: {
+              symbol: stock
+            }
+          }) 
+        }))
+        
 
-        console.log(response)
+        //console.log(responses)
+
+        const data = responses.map((response)=> {
+          return {
+            data : response.data,
+            params: response.config.params.symbol
+          }
+        })
+        console.log(data)
+        if (isMount){
+          setStock(data)
+        }
     
       } catch (error) {
         
       }
     }
     fetchData()
+    return () => isMount = false
   },[])
   return (
 
-    <div>StockList</div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            
+          </tr>
+        </thead>
+      </table>
+    </div>
   )
 }
 

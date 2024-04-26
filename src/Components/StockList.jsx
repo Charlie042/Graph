@@ -42,10 +42,22 @@ const StockList = () => {
   return (
 
     <div>
-      <table>
-        <thead>
+      <table className='table hover mt-5'>
+        <thead style={{color: "red"}}>
           <tr>
-            
+            <th scope='col'>
+              Name
+            </th>
+            <th scope='col'>
+              Name
+            </th>
+            <th scope='col'>
+              Name
+            </th>
+            <th scope='col'>
+              Name
+            </th>
+
           </tr>
         </thead>
       </table>

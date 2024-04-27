@@ -1,10 +1,21 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
+import { BsCaretDownFill } from "react-icons/bs"
+import { BsCaretUpFill } from "react-icons/bs";
+
 import finhub from '../api/finhub'
 
 const StockList = () => {
-  const [stock, setStock] = useState()
+  const [stock, setStock] = useState([])
   const [watchlist, setWatchlist]  = useState(["GOOGL", "MSFT","AMZN"])
+
+  const changeColor = (change) => {
+  return  change > 0 ? "success" : "danger"
+  }
+
+  const changeIcon = (icon) => {
+    return icon > 0 ? <BsCaretUpFill/>  : <BsCaretDownFill/>
+  }
   useEffect(()=>{
     let isMount = true
     const fetchData = async() =>{
@@ -49,17 +60,45 @@ const StockList = () => {
               Name
             </th>
             <th scope='col'>
-              Name
+              Last
             </th>
             <th scope='col'>
-              Name
+              chg
             </th>
             <th scope='col'>
-              Name
+              chg%
+            </th>
+            <th scope='col'>
+              high
+            </th>
+            <th scope='col'>
+              low
+            </th>
+            <th scope='col'>
+              open
+            </th>
+            <th scope='col'>
+            pclose
             </th>
 
           </tr>
         </thead>
+        <tbody>
+          {stock.map((stockdata)=> {
+            return (
+              <tr className='table-row' key={stockdata.params}>
+                <th>{stockdata.params}</th>
+                <td>{stockdata.data.c}</td>
+                <td className={`text-${changeColor(stockdata.data.d)}`}>{stockdata.data.d} {changeIcon(stockdata.data.d)}</td>
+                <td className={`text-${changeColor(stockdata.data.dp)}`}>{stockdata.data.dp} {changeIcon(stockdata.data.dp)}</td>
+                <td>{stockdata.data.h}</td>
+                <td>{stockdata.data.l}</td>
+                <td>{stockdata.data.o}</td>
+                <td>{stockdata.data.pc}</td>
+              </tr>
+            )
+          })}
+        </tbody>
       </table>
     </div>
   )

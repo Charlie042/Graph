@@ -1,11 +1,30 @@
 import React from 'react'
 import finhub from '../api/finhub'
 import { useState, useEffect } from 'react'
+import { useGlobal } from '../../useGlobal'
 
 
 const AutoComplete = () => {
-  const [search,setSearch] = useState("")
-  const [result,setResult] = useState([])
+  const {search,result,setSearch,setResult} = useGlobal()
+
+  const renderDrop = () =>{
+   
+    const render =  search ? "show" : null
+
+    return (
+      <ul style={{
+        height: "100px",
+        overflowY: "scroll",
+        overflowX: "hidden",
+        cursor: "pointer"
+      }}
+      className={`dropdown-menu ${render}`}>
+        {result.map(result => {
+          return <li dropdownitem>{result.description} ({result.symbol})</li>
+        })}
+      </ul>
+    )
+  }
 
   useEffect(()=> {
     let isMount = true
@@ -20,12 +39,13 @@ const AutoComplete = () => {
         }
       
       })
+      console.log(response.data.result)
       if(isMount){
         setResult(response.data.result)
       }
       
     
-      console.log(response)
+      
       } catch (error) {
         console.log(response.error)
       }
@@ -45,6 +65,7 @@ const AutoComplete = () => {
       type="text" id='search'  className='form-control' placeholder='Search' autoComplete='off'
       value={search} onChange={(e)=> setSearch(e.target.value)}/>
       <label htmlFor="search"> Search</label>
+    {renderDrop()}
       </div>
 
     </div>

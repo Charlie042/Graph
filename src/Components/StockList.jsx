@@ -2,13 +2,12 @@ import React from 'react'
 import { useState,useEffect } from 'react'
 import { BsCaretDownFill } from "react-icons/bs"
 import { BsCaretUpFill } from "react-icons/bs";
+import { useGlobal } from '../../useGlobal';
 
 import finhub from '../api/finhub'
 
 const StockList = () => {
-  const [stock, setStock] = useState([])
-  const [watchlist, setWatchlist]  = useState(["GOOGL", "MSFT","AMZN"])
-
+  const {stock,setStock, watchlist,setWatchlist} = useGlobal()
   const changeColor = (change) => {
   return  change > 0 ? "success" : "danger"
   }
@@ -49,7 +48,7 @@ const StockList = () => {
     }
     fetchData()
     return () => isMount = false
-  },[])
+  },[watchlist])
   return (
 
     <div>

@@ -48,7 +48,7 @@ const StockList = () => {
     }
     fetchData()
     return () => isMount = false
-  },[])
+  },[watchlist])
   return (
 
     <div>

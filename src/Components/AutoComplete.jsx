@@ -5,7 +5,7 @@ import { useGlobal } from '../../useGlobal'
 
 
 const AutoComplete = () => {
-  const {search,result,setSearch,setResult} = useGlobal()
+  const {search,result,setSearch,setResult,addStock} = useGlobal();
 
   const renderDrop = () =>{
    
@@ -20,7 +20,11 @@ const AutoComplete = () => {
       }}
       className={`dropdown-menu ${render}`}>
         {result.map(result => {
-          return <li dropdownitem>{result.description} ({result.symbol})</li>
+          return <li onClick={()=> {
+            addStock(result.symbol)
+            setSearch("")
+          }} key={result.symbol} 
+         className='dropdown-item' >{result.description} ({result.symbol})</li>
         })}
       </ul>
     )

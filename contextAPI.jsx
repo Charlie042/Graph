@@ -11,10 +11,22 @@ const AppProvider = ({children}) => {
   const [result,setResult] = useState([])
 
 
+  const addStock = (stock) => {
+    if (watchlist.indexOf(stock) == -1) {
+      setWatchlist([...watchlist,stock])
+    }
+  }
+  const deleteStock = (stock) => {
+    watchlist.filter((el) => {
+     return el !== stock
+    })
+  }
+
+
 
 
   return (
-    <AppContext.Provider value={{watchlist,stock,search,result,
+    <AppContext.Provider value={{watchlist,stock,search,result,addStock,
     setResult,setSearch,setStock,setWatchlist}}>
         {children}
         </AppContext.Provider>
